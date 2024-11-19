@@ -1,5 +1,4 @@
 //Lab 09 Design and implement a video game
-//Jessica Atkinson
 //EE215L
 //May 12, 2016
 
