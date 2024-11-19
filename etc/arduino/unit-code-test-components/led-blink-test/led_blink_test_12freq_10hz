@@ -1,0 +1,36 @@
+/*
+ * EE490 Homework/ project #2
+ * Due : Septermber 13, 2018 at 8am
+ * 
+ * 2. Write Arduino code to blink an LED on digital pin 12 at a frequency of 10Hz
+ *    a. what hardware do you need to connect to the arduino to 
+ *       make this circuit work?
+ *    b. Add the needed hardware. 
+ *    c. compile and verify the code.
+ *    d. download the code to your Arduino.
+ *    e. send a video of your completed project tp your instructor
+ *       or you can demonstrate it in person.
+ */
+
+
+// assigns constant variables 
+const int led_pin = 12;             // assigns pin 12 to the output LED
+const int frequency_delay = 100;    // assigns the frequency as 10 Hz at delay(100)
+
+// assigns variables
+int led_state = LOW;                // initalizes the LED state to LOW 
+
+void setup() 
+{
+  pinMode( led_pin, OUTPUT );       // assigns pin 12 as the output to the LED
+}
+
+void loop() 
+{
+ 
+  digitalWrite( led_pin, led_state == HIGH ? LOW : HIGH );  // writes the led HIGH or LOW based on the current LED state
+  led_state = digitalRead(led_pin);                         // saves the new state of the led
+  
+  delay(frequency_delay);                                   // wait for a second
+
+}
