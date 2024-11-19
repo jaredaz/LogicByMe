@@ -1,0 +1,15 @@
+ClrHome
+Menu("OPTIONS","RECT2POL",1,"POL2RECT",2
+
+Lbl 1
+Input "INPUT X: ",X
+Input "INPUT Y: ",Y
+(X+Y)→Z
+Disp ZPolar
+Stop
+Lbl 2
+Input "MAGNITUDE: ",X
+Input "PHASE: ",Y
+(X*^(*Y))→Z
+Disp ZRect
+Stop

@@ -1,0 +1,28 @@
+Menu("TEMP GIVEN","FARHEINT",1,"CELCIUS",2,"KELVIN",3
+Lbl 1
+Input "FAHRENHEIT: ",F
+(5/9)(F-32)→C
+C+273.15→K
+Disp "CELCIUS"
+Disp C
+Disp "KELVIN"
+Disp K
+Stop
+Lbl 2
+Input "CELCIUS: ",C
+(9/5)(C)+32→F
+C+273.15→K
+Disp "F: "
+Disp F
+Disp "K:"
+Disp K
+Stop
+Lbl 3
+Input "ENT K: ",K
+K-273.15→C
+(9/5)C+32→F
+Disp "F:"
+Disp F
+Disp "C:"
+Disp C
+Stop

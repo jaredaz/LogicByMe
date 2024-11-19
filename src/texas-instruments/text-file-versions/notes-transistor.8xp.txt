@@ -1,0 +1,9 @@
+Disp "     |
+Disp "     |Drain
+Disp "Gate |
+Disp "    _|
+Disp "___|
+Disp "   |_
+Disp "     |
+Disp "     |Source
+Pause 

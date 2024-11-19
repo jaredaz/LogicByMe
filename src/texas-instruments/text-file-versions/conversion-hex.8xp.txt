@@ -1,0 +1,39 @@
+Input "ENT HEX: ",X
+If X≤9
+Then
+X→H
+Else
+If H="A"
+Then
+10→H
+Else
+If H="B"
+Then
+11→H
+Else
+If H="C"
+Then
+12→H
+Else
+If H="D"
+Then
+13→H
+Else
+If H="E"
+Then
+14→H
+Else
+If H="F"
+Then
+15→H
+End
+End
+End
+End
+End
+End
+End
+Disp "HEX: "
+Disp X
+Disp "BIN: "
+Disp H

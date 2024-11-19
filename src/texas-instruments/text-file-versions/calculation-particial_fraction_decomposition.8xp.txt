@@ -1,0 +1,164 @@
+ClrHome
+ClrAllLists
+Clear Entries
+Disp "f.boon
+Disp "press enter
+Disp "partial fraction
+Disp "decomposition
+Disp "max 4 fractions
+Pause 
+ClrHome
+Disp "F/((N1)...(N4))=
+Disp "A/N1+B/N2
+Disp "+C/N3+D/N4
+Pause 
+ClrHome
+Disp "use(())correct
+Disp "if we have only
+Disp "2 parts then if
+Disp "f.e. 1/((N1)(N2))
+Disp "A/(N1)+B/(N2)
+Disp "+C/1+D/1
+Disp "so N3,N4=1
+Pause 
+Normal
+Radian
+a+b
+ClrHome
+0→A
+0→B
+0→C
+0→D
+0→E
+0→F
+0→G
+0→H
+0→I
+0→J
+0→K
+0→L
+0→M
+0→N
+0→O
+0→P
+0→Q
+0→R
+0→S
+0→T
+"0"→Str3
+"0"→Str4
+""→Y₄
+""→Y₅
+Input "F/((N1)..*(N4))=",Str0
+Input "A/N1 give 1/N1 = ",Str1
+Input "B/N2 give 1/N2 = ",Str2
+Input "C/N3 give 1/N3 = ",Str3
+Input "D/N4 give 1/N4 = ",Str4
+1.539542+2.23795→X
+ClrHome
+Disp "running
+real((expr(Str1)/(expr(Str0))→A
+real((expr(Str2)/(expr(Str0))→B
+real((expr(Str3)/(expr(Str0))→C
+real((expr(Str4)/(expr(Str0))→D
+1→E
+imag((expr(Str1)/(expr(Str0))→F
+imag((expr(Str2)/(expr(Str0))→G
+imag((expr(Str3)/(expr(Str0))→H
+imag((expr(Str4)/(expr(Str0))→I
+0→J
+2.22345*+1.383764→X
+real((expr(Str1)/(expr(Str0))→K
+real((expr(Str2)/(expr(Str0))→L
+real((expr(Str3)/(expr(Str0))→M
+real((expr(Str4)/(expr(Str0))→N
+1→O
+imag((expr(Str1)/(expr(Str0))→P
+imag((expr(Str2)/(expr(Str0))→Q
+imag((expr(Str3)/(expr(Str0))→R
+imag((expr(Str4)/(expr(Str0))→S
+0→T
+{4,5}→dim([A])
+A→[A](1,1):[A]
+B→[A](1,2):[A]
+C→[A](1,3):[A]
+D→[A](1,4):[A]
+E→[A](1,5):[A]
+F→[A](2,1):[A]
+G→[A](2,2):[A]
+H→[A](2,3):[A]
+I→[A](2,4):[A]
+J→[A](2,5):[A]
+K→[A](3,1):[A]
+L→[A](3,2):[A]
+M→[A](3,3):[A]
+N→[A](3,4):[A]
+O→[A](3,5):[A]
+P→[A](4,1):[A]
+Q→[A](4,2):[A]
+R→[A](4,3):[A]
+S→[A](4,4):[A]
+T→[A](4,5):[A]
+rref([A])→[B]
+[B](1,5)→U
+[B](2,5)→V
+[B](3,5)→W
+[B](4,5)→X
+StringEqu(Str0,Y₁)
+StringEqu(Str1,Y₂)
+StringEqu(Str2,Y₃)
+StringEqu(Str3,Y₄)
+StringEqu(Str4,Y₅)
+.5+.0000001→P
+.9-.0000001→Q
+fMax(Y₁,X,P,Q)→M
+Y₁(M)→N
+(P-Q)/7→D
+P-D→P
+0→T
+For(J,1,7,1):
+(Y₁(P+J*D)-U*Y₂(P+J*D)-V*Y₃(P+J*D)-W*Y₄(P+J*D)-X*Y₅(P+J*D))/(N+1­6)→S
+(T+abs(S))→T
+End
+If abs(T)/7≤.001
+Then
+If abs(U)≤0.00001
+Then
+0→U
+Else
+End
+If abs(V)≤0.00001
+Then
+0→V
+Else
+End
+If abs(W)≤0.00001
+Then
+0→W
+Else
+End
+If abs(X)≤0.00001
+Then
+0→X
+Else
+End
+ClrHome
+Output(1,1,U
+Output(2,6,"*"
+Output(2,7,Str1
+Output(3,1,V
+Output(4,6,"*"
+Output(4,7,Str2
+Output(5,1,W
+Output(6,6,"*"
+Output(6,7,Str3
+Output(7,1,X
+Output(8,6,"*"
+Output(8,7,Str4
+Pause 
+ClrHome
+Else
+Disp "wrong choice
+Pause 
+ClrHome
+Stop

@@ -1,0 +1,35 @@
+Input "Enter V[t]: ",V
+Input "Enter k[n]: ",K
+
+
+1→A
+While A=1
+Input "Enter V[GS]: ",G
+Input "Enter V[GD]: ",D
+Input "Enter V[DS]: ",S
+(G-V)→X
+"NMOS
+If G<V
+Then
+"cutoff"→Str1
+0→I
+Else
+If S>X
+Then
+"Saturation: "→Str1
+(1/2)(K)(G-T)²→I
+Else
+"Triode"→Str1
+(K)(((G-V)S-((1/2)S²))→I
+End
+End
+
+ClrHome
+Disp "DC operating region"
+Disp Str1
+Disp "I[D]= "
+Disp I
+Pause 
+Disp "1=Yes 0=No"
+Input "Again?: ",A
+End

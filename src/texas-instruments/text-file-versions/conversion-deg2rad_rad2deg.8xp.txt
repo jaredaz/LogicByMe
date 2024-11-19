@@ -1,0 +1,20 @@
+ClrHome
+Menu("TYPE OF CONVERSION","DEG2RAD",1,"RAD2DEG",2
+ClrHome
+Lbl 1
+Input "ENT DEGREE: ",D
+(D*2*π)/360→R
+Disp "DEGREE: "
+Disp D
+Disp "RADIANS: "
+Disp R
+Stop
+
+Lbl 2
+Input "ENT RADIANS: ",R
+R*360/(2π)→D
+Disp "RADIANS: "
+Disp R
+Disp "DEGREE: "
+Disp D
+Stop

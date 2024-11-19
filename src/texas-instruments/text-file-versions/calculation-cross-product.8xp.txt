@@ -1,0 +1,21 @@
+Disp "FIRST
+Prompt A
+Prompt B
+Prompt C
+Disp "SECOND
+Prompt D
+Prompt E
+Prompt F
+(B*F)-(C*E)→I
+(C*D)-(A*F)→J
+(A*E)-(B*D)→H
+√(I²+J²+K²)→M
+Disp "I,J,K"
+Disp I
+Disp J
+Disp H
+Disp "MAG
+Disp M
+M→X
+
+Pause 

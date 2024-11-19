@@ -1,0 +1,22 @@
+
+Input "F(T,Y):",Str1
+Input "T.:",T
+Input "Y.:",Y
+expr(Str1)→X
+Disp X
+inString(Str1,"(")→A
+inString(Str1,")")→B
+Disp A
+Disp B
+
+For(N,1,length(Str6))
+length(Str6)→L
+sub(Str6,N,1)→Str5
+Disp Str5
+If Str5="^"
+Then
+sub(Str6,N,3)→Str4
+Disp Str4
+End
+
+End

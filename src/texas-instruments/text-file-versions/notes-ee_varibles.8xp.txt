@@ -1,0 +1,47 @@
+"VARIABLES
+::::::::::::
+
+:"N[a]: doping consentration
+10^17→A
+
+:"B:
+7.3*10^15→B
+
+:"c UNIT centi
+10^­2→C
+
+:"N[d]: doping consentration
+10^19→D
+
+:"ε[o]
+8.854*10^(­23)→E
+
+:"f UNIT femto
+10^­15→F
+
+:"ε[g] 
+1.12→G
+
+:"K: Boltzmann's constant
+1.38*10^­23→K
+
+:"m UNIT milli
+10^­3→M
+
+:"Ni
+1.5*10^10→N
+
+:"q: electron charge
+1.602*10^­19→Q
+
+:"ε[r]
+11.7→R
+
+:"ε[s]
+1.04*10^(­12)→S
+
+:"V[t]: thermal Vltge
+25.9*10^(­3)→T
+
+:"µ or mm UNIT micro
+10^­6→U
