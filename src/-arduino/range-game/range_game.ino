@@ -62,13 +62,15 @@ void loop() {
   switch (stat) {
     case GameStatus.OFF:
       Serial.println("game is turned off.");
-      // listen for power on switch
       isGamePowered = getPowerStatus();
       if (isGamePowered == 1) {
         goto reset_label; // game just turned on
       }
+      digitalWrite(gameStatusLed_pin, LOW); 
+      digitalWrite(rangeFinderLed_pin, LOW);
       break;
-    case GameStatus.CHILLIN:
+
+    case GameStatus.CHILLIN: // init
       getPowerStatus();
       getStatusButtonStatus();
       // chillin at the bottom of the scale
@@ -76,37 +78,54 @@ void loop() {
       // if not at bottom goto reset or set enum to reset
       digitalWrite(gameStatusLed_pin, LOW); // game status LED = OFF or super slow blink??
       digitalWrite(rangeFinderLed_pin, HIGH);
-
-
       break;
+
     case GameStatus.ACTIVE:
       getPowerStatus();
-      getStatusButtonStatus();
+      bool shouldStopRangeFinder = getRangeFinderButtonStatus(); // listen for RangeFinder btn
+      getStatusButtonStatus(); // for override
+      // stop range finder
+      If (shouldStopRangeFinder) {
+        goto freeze_label;
+      }
       // note: should we check current position to make sure at reset
-      // turn on game button lights
       digitalWrite(gameStatusLed_pin, HIGH);
       digitalWrite(rangeFinderLed_pin, HIGH);
-      // start moving RangeFinder
-      // Rotate counter clockwise at 10 RPM
-      rangeFinder.setSpeed(5);
-      rangeFinder.step(-stepsPerRevolution);
+      // start moving RangeFinder- Rotate CW at 15 RPM
+      rangeFinder.setSpeed(15);
+      rangeFinder.step(stepsPerRevolution);
       delay(150);
       break;
+
     case GameStatus.FROZEN:
+freeze_label:
+      if (stat != GameStatus.FREOZEN) {
+        stat = GameStatus.FROZEN;
+      }
       isGamePowered = getPowerStatus();
-      // after game is active -> calls reset
-      // slowly flash game control LED
+      getStatusButtonStatus(); // if clicked goto reset
+      digitalWrite(gameStatusLed_pin, HIGH);
+      digitalWrite(rangeFinderLed_pin, LOW); // turn off range finder btn led indicator
+
+      // did you win? we may be able to check using one ir sensor
       break;
+
     case GameStatus.RESET:
 reset_label:
-      getPowerStatus();
-      getStatusButtonStatus();
       if (stat != GameStatus.RESET) {
         stat = GameStatus.RESET;
       }
-      // quickly flash game control LED
-      mode 
+      getPowerStatus();
+      getStatusButtonStatus();
+
       digitalWrite(gameStatusLed_pin, HIGH);
+      digitalWrite(rangeFinderLed_pin, LOW);
+
+      // is range finder reset to bottom?
+      // start moving RangeFinder down Rotate CCW at 15 RPM
+      rangeFinder.setSpeed(15);
+      rangeFinder.step(-stepsPerRevolution);
+      delay(150);
       break;
   }
 } // main loop
@@ -114,7 +133,7 @@ reset_label:
 
 bool getPowerStatus() {
   bool powerSwitch = digitalRead(powerSwitch_pin) == 1;
-  if (powerSwitch == 1) {
+  if (powerSwitch) {
     stat = (powerSwitch == 1) ? GameStatus.Reset : GameStatus.OFF
   }
   return powerSwitch;
@@ -137,26 +156,29 @@ bool getStatusButtonStatus() {
   // returns if stat got changed
   bool isBtnPressed = digitalRead(gameStatusButton_pin) == 1;
   bool rtnVal = false;
-  switch (stat) {
-    case GameStatus.OFF:
-      rtnVal = false;
-      break;
-    case GameStatus.CHILLIN:
-      stat = GameStatus.ACTIVE;
-      rtnVal = true;
-      break;
-    case GameStatus.ACTIVE:
-      stat = GameStatus.FROZEN;
-      rtnVal = true;
-      break;
-    case GameStatus.FROZEN:
-      stat = GameStatus.RESET;
-      rtnVal = true;
-      break;
-    case GameStatus.RESET:
-      // continue reseting?
-      rtnVal = false
-               break;
+
+  if (isBtnPressed) {
+    switch (stat) {
+      case GameStatus.OFF:
+        rtnVal = false;
+        break;
+      case GameStatus.CHILLIN:
+        stat = GameStatus.ACTIVE;
+        rtnVal = true;
+        break;
+      case GameStatus.ACTIVE:
+        stat = GameStatus.FROZEN;
+        rtnVal = true;
+        break;
+      case GameStatus.FROZEN:
+        stat = GameStatus.RESET;
+        rtnVal = true;
+        break;
+      case GameStatus.RESET:
+        // continue reseting? dont let it interrupt
+        rtnVal = false
+                 break;
+    }
   }
   return rtnVal;
 }
