@@ -14,6 +14,8 @@ const int gameStatusButton_pin = 3; // on/off start game
 const int rangeFinderLed_pin = 4; // button to stop range finger
 const int rangeFinderButton_pin = 5; // control range finder
 
+const int maxSteps = 50950; // max number of times the stepper should rotate to prevent crash
+const int stepperSpeed = 15;
 //-----------------------------------
 
 enum GameStatus {
@@ -32,8 +34,10 @@ enum GameStatus stat;
 const int stepsPerRevolution = 2038;
 Stepper rangeFinder = Stepper(stepsPerRevolution, 10, 12, 11, 13);
 
+
 int rangeFinderPos_init = 0;
 int rangeFinderPos = 0; // put read ir value here
+int currentSteps = 0;
 
 bool freezeOverride = false;
 
@@ -87,11 +91,7 @@ void loop() {
       digitalWrite(gameStatusLed_pin, HIGH);
       digitalWrite(rangeFinderLed_pin, HIGH);
       // start moving RangeFinder
-      // Rotate counter clockwise at 10 RPM
-      rangeFinder.setSpeed(5);
-      rangeFinder.step(-stepsPerRevolution);
-      delay(150);
-      break;
+      moveStepper(150);
     case GameStatus.FROZEN:
       isGamePowered = getPowerStatus();
       // after game is active -> calls reset
@@ -120,6 +120,18 @@ bool getPowerStatus() {
   return powerSwitch;
 }
 
+int moveStepper(int steps)
+{
+  // do some math here, don't need to pass in revolutions (could pass in the delay) then calculate how far it has moved?
+  // could also use this method with up or down
+  // add logic here for checking for not going lower than 0 steps
+  if (currentSteps < maxSteps) {
+    currentSteps += steps;
+    rangeFinder.setSpeed(stepperSpeed);
+    rangeFinder.step(-stepsPerRevolution);
+    delay(150); // calculate this
+  }
+}
 
 bool getRangeFinderButtonStatus() {
   // called when in active mode to check when to freeze motor
