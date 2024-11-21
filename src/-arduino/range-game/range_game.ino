@@ -25,6 +25,7 @@ enum GameStatus {
 };
 
 enum GameStatus stat;
+bool isGamePowered = false;
 
 // stepper motor control ----------------------
 /* 5V Stepper Motor - ULN2003 Driver Board
@@ -35,7 +36,7 @@ Stepper rangeFinder = Stepper(stepsPerRevolution, 10, 12, 11, 13);
 int rangeFinderPos_init = 0;
 int rangeFinderPos = 0; // put read ir value here
 
-bool freezeOverride = false;
+// bool freezeOverride = false; // jaa delete dont think it is needed
 
 void setup() {
   Serial.begin(9600); // serial comm 9600 buad rate
@@ -53,19 +54,12 @@ void setup() {
 }
 
 void loop() {
-  // !!jaa: figure out how to read isGamePowered all the time
-  isGamePowered = getPowerStatus();
-  Serial.print("game power status: ");
-  Serial.println(isGamePowered);
-
-
+  // !!jaa: figure out how to read isGamePowered all the time without delay
   switch (stat) {
     case GameStatus.OFF:
       Serial.println("game is turned off.");
-      isGamePowered = getPowerStatus();
-      if (isGamePowered == 1) {
-        goto reset_label; // game just turned on
-      }
+      getPowerStatus();
+      
       digitalWrite(gameStatusLed_pin, LOW); 
       digitalWrite(rangeFinderLed_pin, LOW);
       break;
@@ -102,7 +96,7 @@ freeze_label:
       if (stat != GameStatus.FREOZEN) {
         stat = GameStatus.FROZEN;
       }
-      isGamePowered = getPowerStatus();
+      getPowerStatus();
       getStatusButtonStatus(); // if clicked goto reset
       digitalWrite(gameStatusLed_pin, HIGH);
       digitalWrite(rangeFinderLed_pin, LOW); // turn off range finder btn led indicator
@@ -131,20 +125,21 @@ reset_label:
 } // main loop
 
 
-bool getPowerStatus() {
+void getPowerStatus() {
   bool powerSwitch = digitalRead(powerSwitch_pin) == 1;
-  if (powerSwitch) {
-    stat = (powerSwitch == 1) ? GameStatus.Reset : GameStatus.OFF
+  if (powerSwitch && !isGamePowered) {
+    isGamePowered = true;
+    goto reset_label; // game just turned on
+  } else {
+    stat = GameStatus.OFF;
   }
-  return powerSwitch;
 }
-
 
 bool getRangeFinderButtonStatus() {
   // called when in active mode to check when to freeze motor
   bool isBtnPressed = digitalRead(rangeFinderButton_pin) == 1;
   if (stat = GameStatus.ACTIVE) { // only works when actively playing
-    freezeOverride = true;
+    // freezeOverride = true;
     stat =  (isBtnPressed == 1) ? GameStatus.FROZEN : GameStatus.ACTIVE;
   } else {
     // do nothing?
